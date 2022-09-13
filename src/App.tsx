@@ -5,6 +5,7 @@ import {
   Counter,
   API,
   CounterWhitHook,
+  APIWhitHook,
   ReduxCounter,
   ZustandCounter
 } from './components';
@@ -105,6 +106,7 @@ export const App = () => {
           <h2>7.- Testing Async Custom Hooks</h2>
           <h3>(useAPI Hook)</h3>
         </header>
+        <APIWhitHook />
       </section>
 
       <hr />
