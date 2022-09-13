@@ -6,7 +6,7 @@ import { useAPI } from './useAPI';
 const server = setupServer(
   rest.get('https://jsonplaceholder.typicode.com/users', (_req, res, ctx) => {
     return res(
-      ctx.delay(),
+      ctx.delay(300),
       ctx.status(200),
       ctx.json([
         {
@@ -65,11 +65,57 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('Test useAPI Hook', () => {
-  it('test #1: should get data', async () => {
+  it('test #1: should render loader', async () => {
     const { result } = renderHook(() => useAPI());
+    expect(result.current.isLoading).toBe(true);
+  });
 
-    //console.log(result.current.data);
+  it('test #2: should no render loader', async () => {
+    const { result, waitForValueToChange } = renderHook(() => useAPI());
+    await waitForValueToChange(() => result.current.isLoading);
+    expect(result.current.isLoading).toBe(false);
+  });
 
-    //expect(result.current.data).toHaveLength(2);
+  it('test #3: should render loader and then disappear', async () => {
+    const { result, waitForValueToChange } = renderHook(() => useAPI());
+
+    expect(result.current.isLoading).toBe(true);
+    await waitForValueToChange(() => result.current.isLoading);
+    expect(result.current.isLoading).toBe(false);
+  });
+
+  it('test #4: should get data', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useAPI());
+
+    await waitForNextUpdate();
+    expect(result.current.data).toHaveLength(2);
+  });
+
+  it('test #5: should data contain the user "Leanne Graham"', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useAPI());
+
+    await waitForNextUpdate();
+    expect(result.current.data[0].name).toEqual('Leanne Graham');
+  });
+
+  it('test #6: should data contain the user "Ervin Howell"', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useAPI());
+
+    await waitForNextUpdate();
+    expect(result.current.data[1].name).toEqual('Ervin Howell');
+  });
+
+  it('test #7: should show error message "Error code: 404"', async () => {
+    server.use(
+      rest.get('https://jsonplaceholder.typicode.com/users', (_req, res, ctx) => {
+        return res(ctx.delay(400), ctx.status(404));
+      })
+    );
+
+    const { result, waitForNextUpdate } = renderHook(() => useAPI());
+
+    await waitForNextUpdate();
+    expect(result.current.error.hasError).toBe(true);
+    expect(result.current.error.message).toEqual('Error code: 404');
   });
 });
