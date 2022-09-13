@@ -4,6 +4,7 @@ import {
   ButtonWrapper,
   Counter,
   API,
+  CounterWhitHook,
   ReduxCounter,
   ZustandCounter
 } from './components';
@@ -94,6 +95,7 @@ export const App = () => {
           <h2>6.- Testing Simple Custom Hooks</h2>
           <h3>(useCounter Hook)</h3>
         </header>
+        <CounterWhitHook />
       </section>
 
       <hr />
