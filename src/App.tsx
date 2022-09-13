@@ -94,7 +94,7 @@ export const App = () => {
       <section>
         <header>
           <h2>6.- Testing Simple Custom Hooks</h2>
-          <h3>(useCounter Hook)</h3>
+          <h3>(useCounter Hook / CounterWhitHook Component)</h3>
         </header>
         <CounterWhitHook />
       </section>
@@ -104,7 +104,7 @@ export const App = () => {
       <section>
         <header>
           <h2>7.- Testing Async Custom Hooks</h2>
-          <h3>(useAPI Hook)</h3>
+          <h3>(useAPI Hook / APIWhitHook Component)</h3>
         </header>
         <APIWhitHook />
       </section>
