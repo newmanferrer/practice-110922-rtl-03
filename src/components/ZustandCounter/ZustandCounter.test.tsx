@@ -9,7 +9,7 @@ beforeEach(() => {
   useStore.setState(originalState);
 });
 
-describe('Test ReduxCounter Component', () => {
+describe('Test ZustandCounter Component', () => {
   it('test #1: should renders button decrement', () => {
     render(<ZustandCounter />);
 
